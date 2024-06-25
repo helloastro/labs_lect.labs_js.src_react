@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+    <body>
+        <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+        <script>
+            // 프라미스 패턴을 지원
+            fetch('msg.json', {
+                method: 'GET',
+            })
+                .then((response) => {
+                    // 응답이 끝나면 다음 프라미스로 결과를 전달한다.
+                    if (response.ok) return response.json();
+                })
+                .then((data) => {
+                    console.log('0', data);
+                })
+                .catch(function (error) {
+                    console.log('오류:' + error.message);
+                });
+
+            let result = '';
+            $.get('msg.json', function (data) {
+                result = data;
+                console.log('1', result);
+            });
+            console.log('2', result);
+
+            /* promise pattern */
+            let result2 = '';
+            $.get('msg.json', {})
+                .done(function (data) {
+                    result2 = data;
+                    console.log('3', result2);
+                })
+                .done(function () {
+                    console.log('4', result2);
+                })
+                .fail(function (data) {
+                    console.log('에러', data);
+                });
+
+            axios
+                .get('msg.json', {})
+                .then(function (response) {
+                    console.log('5', response);
+                })
+                .catch(function (error) {
+                    console.log('에러', error);
+                });
+
+            axios({
+                method: 'get',
+                url: 'msg.json',
+                data: {
+                    param: '1234',
+                },
+            })
+                .then(function (response) {
+                    console.log('6', response.data);
+                })
+                .catch(function (error) {
+                    console.log('에러', error);
+                });
+        </script>
+    </body>
+</html>

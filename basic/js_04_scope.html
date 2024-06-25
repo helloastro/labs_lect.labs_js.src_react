@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // this 범위
+        var name = '가';
+        let name1 = 'A';
+
+        console.log(name, name1);
+        console.log(this.name, this.name1);
+        console.log(window.name, window.name1);
+
+        test(); //호이스팅
+        function test() {
+            var name = '나';
+            console.log(name);
+            console.log(this.name);
+        }
+        //test();
+        window.test();
+
+        let test2 = {
+            name: '다',
+            test: function() {
+                var name='라';
+                console.log(name);
+                console.log(this.name);
+                //console.log(window.name);
+            }.bind(this)
+        };
+        test2.test();
+    </script>
+</body>
+</html>

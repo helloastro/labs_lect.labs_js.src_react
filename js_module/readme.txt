@@ -1,0 +1,1 @@
+01. npm init 으로 package.json 생성

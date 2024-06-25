@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+        <title>timestable.html</title>
+    </head>
+    <body>
+        <h1>HTML Tag</h1>
+        <ul id="tag_wrap">
+            <li>2 X 1 = 2</li>
+            <li>2 X 2 = 4</li>
+            <li>2 X 3 = 6</li>
+            <li>2 X 4 = 8</li>
+            <li>2 X 5 = 10</li>
+            <li>2 X 6 = 12</li>
+            <li>2 X 7 = 14</li>
+            <li>2 X 8 = 16</li>
+            <li>2 X 9 = 18</li>
+        </ul>
+
+        <h1>DOM</h1>
+        <ul id="dom_wrap"></ul>
+
+        <h1>JQuery</h1>
+        <ul id="jquery_wrap"></ul>
+
+        <h1>Vue</h1>
+        <ul id="vue_wrap">
+            <li v-for="n in 9">2 X {{ n }} = {{ 2*n }}</li>
+        </ul>
+
+        <h1>React</h1>
+        <ul id="react_wrap"></ul>
+
+        <h1>ES6</h1>
+        <ul id="es6_wrap"></ul>
+
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+        ></script>
+
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+
+        <script src="https://cdn.jsdelivr.net/npm/vue@2.7.16/dist/vue.js"></script>
+
+        <script>
+            var dom_wrap = document.getElementById('dom_wrap');
+            for (i = 1; i < 10; i++) {
+                var li = document.createElement('li');
+                var txt = document.createTextNode(`2 X ${i} = ${2 * i}`);
+
+                li.appendChild(txt);
+                dom_wrap.appendChild(li);
+            }
+        </script>
+
+        <script>
+            // jQuery( html, attributes )
+            // attributes: id, class, type, 'data-userattr', html
+            let result = $();
+            for (i = 1; i < 10; i++) {
+                const el = $('<li/>', {
+                    text: `2 X ${i} = ${2 * i}`,
+                    //html: `<i>2 X ${i} = ${2 * i}</i>`,
+                });
+                result = result.add(el); // Jquery 객체(DOM Element)를 추가한다.
+            }
+            $('#jquery_wrap').append(result);
+        </script>
+
+        <script>
+            var vue_app = new Vue({
+                el: '#vue_wrap',
+            });
+        </script>
+
+        <script type="text/babel">
+            /*
+            class TimesReact extends React.Component {
+                constructor(props) {
+                    super(props);
+                    this.state = { ary: Array.from({ length: 9 }, (v, k) => ++k) };
+                }
+
+                render() {
+                    this.state.ary.map((v, k) => console.log(k + ':' + v));
+
+                    return (
+                        <ul>
+                            {this.state.ary.map((v, k) => {
+                                return (
+                                    <li>
+                                        2 X {v} = {2 * v}
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    );
+                }
+            }
+            */
+            const ary = Array.from({ length: 9 }, (v, k) => ++k);
+
+            function TimesReact(props) {
+                return (
+                    <>
+                        {props.ary.map((v, k) => {
+                            return (
+                                <li>
+                                    2 X {v} = {2 * v}
+                                </li>
+                            );
+                        })}
+                    </>
+                );
+            }
+            ReactDOM.render(<TimesReact ary={ary} />, document.getElementById('react_wrap'));
+        </script>
+
+        <script>
+            Array.from({ length: 9 }, (v, k) => ++k).forEach((i) => {
+                var li = document.createElement('li');
+                var txt = document.createTextNode(`2 X ${i} = ${2 * i}`);
+
+                li.appendChild(txt);
+                document.querySelector('#es6_wrap').appendChild(li);
+            });
+
+            Array.from({ length: 9 }, (v, k) => ++k).forEach((i) => {
+                // 앞(beforebegin), 뒤(afterend), 첫번째 자식(afterbegin), 마지막자식(beforeend)의 위치를 지정
+                document.querySelector('#es6_wrap').insertAdjacentHTML(
+                    'beforeend',
+                    `
+                    <li>2 X ${i} = ${2 * i}</li>
+                `,
+                );
+            });
+        </script>
+    </body>
+</html>

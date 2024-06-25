@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ko">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- babel/standalone CDN(Contents Delievery Network) 검색 -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!-- React CDN(Contents Delievery Network) 검색 -->
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    </head>
+    <body>
+        <div id="root"></div>
+        <div id="root1"></div>
+        <div id="root2"></div>
+        <div id="root3"></div>
+        <div id="root4"></div>
+        <script>
+            const data = {
+                name: '홍길동',
+            };
+            const root = document.getElementById('root');
+
+            const ReactEL = React.createElement('h3', null, `ReactEL: 안녕하세요. ${data.name}님`);
+
+            ReactDOM.render(ReactEL, root);
+        </script>
+
+        <script type="text/babel">
+            const root1 = document.getElementById('root1');
+
+            const HelloEL = <h3>JSX: 안녕하세요. {data.name}님</h3>;
+
+            ReactDOM.render(HelloEL, root1);
+        </script>
+
+        <script type="text/babel">
+            const root2 = document.getElementById('root2');
+
+            const WelcomeEL = (
+                <>
+                    계층구조: <h3>안녕하세요. {data.name}님</h3>
+                </>
+            );
+
+            ReactDOM.render(WelcomeEL, root2);
+        </script>
+
+        <script type="text/babel">
+            const root3 = document.getElementById('root3');
+
+            // 재활용
+            // style 속성보다 className 속성 사용을 권장한다.
+            function WelcomeCompo() {
+                return <h3 style={{ backgroundColor: 'yellow' }}>안녕하세요. {data.name}님 </h3>;
+            }
+
+            const WelcomeEL2 = (
+                <>
+                    컴포넌트: <WelcomeCompo />
+                </>
+            );
+
+            ReactDOM.render(WelcomeEL2, root3);
+        </script>
+
+        <script type="text/babel" data-type="module">
+            import WelcomeEL4 from './WelcomeEL4.js'; // Component 계층형 구조
+
+            const root4 = document.getElementById('root4');
+            ReactDOM.render(WelcomeEL4(data), root4);
+        </script>
+    </body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      h1 {
+        font-size: 50px;
+        font-family: '궁서체';
+        color: blueviolet;
+      }
+
+      /* class */
+      .title {
+        font-size: 60px;
+        color: blue;
+      }
+
+      /* id */
+      #title {
+        font-size: 30px;
+        color: cornflowerblue;
+      }
+    </style>
+  </head>
+  <body>
+    <!--
+    h1 - 글자 크기 50px, 글자체: 궁서체, 색: blueviolt;
+    2개 - 글자 크기 60px,  색: blue;
+    1개 - 글자 크기 30px,  색: pink;
+    id=title 인 내용을 HTML 기본
+  -->
+    <h1 class="title">HTML BASIC</h1>
+    <h1>HTML BASIC</h1>
+    <h1 class="title">HTML BASIC</h1>
+    <h1 id="title">HTML BASIC</h1>
+    <h1>HTML BASIC</h1>
+    <h1>HTML BASIC</h1>
+    <button type="button" onclick="changeContent()">내용 바꾸기</button>
+    <script>
+      function changeContent() {
+        document.getElementById('title').innerText = 'HTML 기본';
+      }
+    </script>
+  </body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"
+        ></script>
+    </head>
+    <body>
+        <button id="btnAdd">클릭</button>
+        <script>
+            //const element = $('<div/>', { text: 'hello world' });
+            const element = '<div>hello world</div>';
+
+            $(function () {
+                console.log(element); // 유사배열
+            });
+
+            $('#btnAdd').on('click', function () {
+                $('body').append(element);
+            });
+
+            document.addEventListener('DOMContentLoaded', (event) => {
+                console.log('DOM fully loaded and parsed');
+            });
+
+            const observer = new MutationObserver(function (mutations) {
+                // jquery element to dom element.using index [0]
+                // console.log(element);
+                if (document.contains(element[0])) {
+                    console.log("It's in the DOM!");
+                    //observer.disconnect();
+                }
+            });
+
+            observer.observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
+        </script>
+    </body>
+</html>

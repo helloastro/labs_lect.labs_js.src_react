@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+        <!-- babel/standalone CDN(Contents Delievery Network) 검색 -->
+        <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+        <!-- React CDN(Contents Delievery Network) 검색 -->
+        <script crossorigin src="https://unpkg.com/react@18/umd/react.production.min.js"></script>
+        <script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.production.min.js"></script>
+    </head>
+    <body>
+        <div id="root">
+            <h3>DOM</h3>
+            <input type="text" onkeyup="changeMsg()" placeholder="입력1" />
+            <div id="msg1"></div>
+            <div id="msg2"></div>
+        </div>
+
+        <div id="root1">
+            <h3>DOM State</h3>
+            <input type="text" onkeyup="changeMsg1()" placeholder="입력2" />
+            <div id="msg3"></div>
+            <div id="msg4"></div>
+        </div>
+
+        <div id="root2"></div>
+
+        <script>
+            /*
+            TextBox에서 Enter를 입력할 경우 Content변경이 없어 DOM 변경은 없어 확인할 수 없으나, 상태 변경을 체크하여 DOM변경 여부를 결정할 수 있다.
+            */
+            // DOM Change Observer
+            const observer = new MutationObserver(function (mutations, observer) {
+                if (mutations != undefined) {
+                    console.log('DOM Changed >');
+                    mutations.map((el) => console.log(el.target));
+                }
+            });
+
+            observer.observe(document, { attributes: false, childList: true, characterData: false, subtree: true });
+
+            // 일반 핸들러. 항상 실행. 이벤트 위주로 변경. 상태와 동기화
+            function changeMsg() {
+                const el_msgs = document.querySelectorAll('#msg1, #msg2');
+                const msg = event.target.value;
+                /*
+                for (const el of el_msgs) {
+                    el.textContent = msg;
+                }
+                */
+                [...el_msgs].map((el) => (el.textContent = msg));
+
+                console.log('root > event handler');
+            }
+        </script>
+
+        <script>
+            // 이전상태와 이후 상태를 비교하여 변경되었을 때만 적용.
+            function checkChange(init_val) {
+                let old_value = init_val;
+                let value = init_val;
+
+                return [
+                    function () {
+                        return value;
+                    },
+                    function (param) {
+                        old_value = value;
+                        value = param;
+
+                        console.log(`root1 > old:${old_value}, new:${value}`);
+                        return old_value != value;
+                    },
+                ];
+            }
+
+            const [getNum, setNum] = checkChange(0);
+            console.log(setNum(123), getNum());
+            console.log(setNum(1124), getNum());
+
+            // 이전상태와 비교하여 변경되었을 경우만 적용. 상태위주로 결정. 상태와 동기화 필요
+            const [getMsg, setMsg] = checkChange('');
+            function changeMsg1() {
+                const el_msgs = document.querySelectorAll('#msg3, #msg4');
+                const msg = event.target.value;
+
+                if (setMsg(msg)) {
+                    /*
+                    for (el of el_msgs) {
+                        el.textContent = getMsg();
+                    }
+                    */
+                    [...el_msgs].map((el) => (el.textContent = msg));
+                    console.log('root1 > event handler');
+                }
+            }
+        </script>
+
+        <script type="text/babel" data-type="module">
+            const root2 = document.getElementById('root2');
+
+            function App() {
+                // Binding
+                const [message, setMessage] = React.useState('');
+
+                return (
+                    <>
+                        <h3>React</h3>
+                        <input type="text" onKeyUp={(e) => setMessage(e.target.value)} />
+                        <div id="msg1">{message}</div>
+                        <div id="msg2">{message}</div>
+                    </>
+                );
+            }
+            ReactDOM.render(<App />, root2);
+        </script>
+    </body>
+</html>
